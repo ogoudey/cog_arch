@@ -9,8 +9,8 @@ class Recorder:
         self.chunk = 1024
         self.sample_format = pyaudio.paInt16
         self.channels = 2
-        self. fs = 44100
-        self.window = 3
+        self.fs = 44100
+        self.window = 10
         self.sample_size = None # set later
         
         
