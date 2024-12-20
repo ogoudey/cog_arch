@@ -7,7 +7,7 @@ import threading
 def listen_for_hl(hl_decoder):
     exhaust = hl_decoder.run()
     if exhaust:
-        print("Stopping listening due to:" + exhaust + "in ".join(map(str, hl_decoder.composition.values())))
+        print("Stopping listening due to: " + exhaust + " detected in: " + "".join(map(str, hl_decoder.composition.values())))
     else:
         print("How am I here?")
         
