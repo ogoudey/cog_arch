@@ -1,26 +1,31 @@
+
+
 import pyaudio
 import wave
 
 import datetime as dt
-
+import time
 
 class Recorder:
-    def __init__(self):
+    def __init__(self, index):
         self.chunk = 1024
         self.sample_format = pyaudio.paInt16
         self.channels = 2
         self.fs = 44100
-        self.window = 10
+        self.window = 4
         self.sample_size = None # set later
         
         
         self.frames = []
+        self.index = index
     
-    def record(self):
+    def record(self, delay=False):
+        if delay:
+            time.sleep(self.window/2)
         self.frames = []
         p = pyaudio.PyAudio()
         self.sample_size = p.get_sample_size(self.sample_format)
-        print("Recording")
+        print("Recording for " + str(self.window) + " seconds...")
         stream = p.open(format=self.sample_format,
                         channels=self.channels,
                         rate=self.fs,
@@ -32,7 +37,7 @@ class Recorder:
         stream.stop_stream()
         stream.close()
         p.terminate()
-        print('Finished recording')
+        print('Finished recording for index '+str(self.index))
 
     def write(self, file_name):
         
