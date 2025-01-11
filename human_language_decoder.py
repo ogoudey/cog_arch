@@ -8,6 +8,7 @@ import random
 import os
 
 import threading
+import concurrent.futures
 import queue
 
 import audio # audio slicer with configuration
@@ -62,25 +63,27 @@ class Transcription:
         print("Made checkpoint directory " + trial)
         index = 0
         
-        transcribers = queue.Queue()
-        transcriber_joiner = threading.Thread(target=join_transcribers, args=[transcribers, event])
-        transcriber_joiner.start()
-
+        #transcribers = queue.Queue()
+        #transcriber_joiner = threading.Thread(target=join_transcribers, args=[transcribers, event])
+        #transcriber_joiner.start()
+        
+        t = None 
         while True:
             a = audio.Recorder(index)
             a.record()
+            if t:
+                t.join()
             this_file = "./" + trial + "/" + str(index) + ".wav"
             a.write(this_file)
-            
+               
             t = threading.Thread(target=transcribe, args=[this_file, self.composition, index])
             t.start()
-            transcribers.put(t)
-
+            
             
             index += 1
 
 
-        transcriber_joiner.join()
+        #transcriber_joiner.join()
 
 
 if __name__ == "__main__":
